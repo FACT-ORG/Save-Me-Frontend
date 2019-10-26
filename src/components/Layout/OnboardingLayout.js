@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
-import onboardingBG from '../../assets/images/saveme-onboarding.jpg';
+import logo from '../../assets/images/saveme-logo.png';
+import onboardingBG from '../../assets/images/onboarding.jpg';
 
 
 const OnboardingLayout = ({component: Component, ...rest}) => {
@@ -12,6 +13,9 @@ const OnboardingLayout = ({component: Component, ...rest}) => {
                     <img src={onboardingBG} alt="Onboarding Background" />
                 </div>
                 <div className="main-content">
+                    <div className="site-logo">
+                        <img src={logo} alt="Refugee Stories Logo" />
+                    </div>
                     <Component {...props} />
                 </div>
             </StyledContainer>
@@ -35,7 +39,7 @@ const StyledContainer = styled.div`
 
         &:before {
             content: '';
-            background: rgba(0, 0, 0, .5);
+            background: rgba(0, 0, 0, .7);
             display: block;
             height: 100%;
             width: 100%;
@@ -52,5 +56,13 @@ const StyledContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+
+        .site-logo {
+            max-width: 60px;
+            position: absolute;
+            top: 4rem;
+            left: calc((100% - 470px) / 2);
+        }
     }
 `
