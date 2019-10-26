@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import store from './state/store';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { theme } from './styles/theme.styles';
+import { GlobalStyles } from './styles/global.styles';
+import { ThemeProvider } from 'styled-components';
 
-function App() {
+import Login from './pages/Login';
+import Register from './pages/Register';
+import EditProfile from './pages/EditProfile';
+import OnboardingLayout from './components/Layout/OnboardingLayout';
+// import WebsiteRouter from './components/Router/WebsiteRouter';
+// import DashboardRouter from './components/Router/DashboardRouter';
+
+
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          
+          {/* Onboarding Routes */}
+          <OnboardingLayout path="/login" component={Login} />
+          <OnboardingLayout path="/register" component={Register} />
+          <OnboardingLayout path="/edit-profile" component={EditProfile} />
+
+          {/* Onboarding Routes */}
+          {/* <OnboardingLayout path="/login" component={Login} />
+          <OnboardingLayout path="/register" component={Register} /> */}
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  )
 }
 
 export default App;
