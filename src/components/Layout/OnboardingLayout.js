@@ -13,10 +13,12 @@ const OnboardingLayout = ({component: Component, ...rest}) => {
                     <img src={onboardingBG} alt="Onboarding Background" />
                 </div>
                 <div className="main-content">
-                    <div className="site-logo">
-                        <img src={logo} alt="Refugee Stories Logo" />
+                    <div>
+                        <div className="site-logo">
+                            <img src={logo} alt="Refugee Stories Logo" />
+                        </div>
+                        <Component {...props} />
                     </div>
-                    <Component {...props} />
                 </div>
             </StyledContainer>
         )}/>
@@ -30,7 +32,7 @@ const StyledContainer = styled.div`
     overflow-y: hidden;
     display: flex;
 
-    @media (max-width: 650px) {
+    @media (max-width: 768px) {
         overflow-y: auto;
         display: block;
     }
@@ -38,7 +40,7 @@ const StyledContainer = styled.div`
     & > * {
         width: 50%;
 
-        @media (max-width: 650px) {
+        @media (max-width: 768px) {
             width: 100%;
         }
     }
@@ -46,7 +48,7 @@ const StyledContainer = styled.div`
     .hero-background {
         position: relative;
         
-        @media (max-width: 650px) {
+        @media (max-width: 768px) {
             display: none;
         }
 
@@ -67,15 +69,24 @@ const StyledContainer = styled.div`
     .main-content {
         height: 100%;
         padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
+
+        & > div {
+            max-width: 450px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
         .site-logo {
             max-width: 60px;
-            margin-bottom: 15rem;
+            position: absolute;
+            top: 3rem;
+            left: 0
         }
     }
 `

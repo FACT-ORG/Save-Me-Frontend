@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from 'styled-components';
 
 
-const Home = () => {
+const MyProfile = () => {
 
     const saveMe = () => {
 
@@ -10,19 +10,12 @@ const Home = () => {
 
     return (
         <StyledContainer>
-            <h2>Hello, what is your emergency?</h2>
-            <ul>
-                <li><button onClick={() => saveMe('')}>Rape</button></li>
-                <li><button onClick={() => saveMe('')}>Police Brutality</button></li>
-                <li><button onClick={() => saveMe('')}>Kidnapping</button></li>
-                <li><button onClick={() => saveMe('')}>Highway Robbery</button></li>
-                <li><button onClick={() => saveMe('')}>Terrorism Attack</button></li>
-            </ul>
+            <h2>My Profile Page</h2>
         </StyledContainer>
     )
 }
 
-export default Home;
+export default MyProfile;
 
 
 const StyledContainer = styled.div`
@@ -35,7 +28,6 @@ const StyledContainer = styled.div`
 
         @media (max-width: 650px) {
             font-size: 4rem;
-            margin-top: 5rem;
         }
     }
 

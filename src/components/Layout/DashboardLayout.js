@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/images/saveme-logo.png';
 
@@ -10,12 +10,10 @@ const DashboardLayout = ({component: Component, ...rest}) => {
             <StyledContainer>
                 <nav>
                     <div className="site-logo">
-                        <img src={logo} alt="Refugee Stories Logo" />
+                        <Link to="/"><img src={logo} alt="Refugee Stories Logo" /></Link>
                     </div>
 
-                    <div className="site-logo">
-                        <img src={logo} alt="Refugee Stories Logo" />
-                    </div>
+                    <p><Link to="/my-profile">My Profile</Link></p>
                 </nav>
                 <Component {...props} />
             </StyledContainer>
@@ -40,9 +38,15 @@ const StyledContainer = styled.div`
         margin: 0 auto;
         padding: 2rem 0;
         justify-content: space-between;
+        align-items: center;
 
         .site-logo {
-            max-width: 40px;
+            max-width: 60px;
+        }
+
+        a {
+            font-size: 1.7rem;
+            color: rgba(0,0,0,.4);
         }
     }
 `

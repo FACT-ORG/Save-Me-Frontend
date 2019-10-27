@@ -9,6 +9,7 @@ import PrivateRoute from './components/Router/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MyProfile from './pages/MyProfile';
 import EditProfile from './pages/EditProfile';
 import DashboardLayout from './components/Layout/DashboardLayout';
 import OnboardingLayout from './components/Layout/OnboardingLayout';
@@ -23,8 +24,10 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <GlobalStyles />
+
           <DashboardLayout exact path="/" component={Home} />
-          {/* Onboarding Routes */}
+          <DashboardLayout path="/my-profile" component={MyProfile} />
+
           <OnboardingLayout path="/login" component={Login} />
           <OnboardingLayout path="/register" component={Register} />
           <OnboardingLayout path="/edit-profile" component={EditProfile} />
