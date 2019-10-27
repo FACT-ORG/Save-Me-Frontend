@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import styled from 'styled-components';
 import Roller from '../components/LoadingIndicator/roller';
+import MultipleValueTextInput from 'react-multivalue-text-input';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -9,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Register = (props) => {
 
     const [ values, setValues ] = useState({});
+    const [ contacts, setContacts ] = useState([])
 	const [ isLoading, setLoading ] = useState(false);
 
     const handleChange = (event) => {
@@ -17,28 +19,56 @@ const Register = (props) => {
 			...values, 
 			[event.target.id]: event.target.value 
 		}));
-	};
+    };
 
 	const handleSubmit = (event) => {
-		if (event) event.preventDefault();
-		setLoading(true);
-		axios.post('', values)
-            .then(res => {       
-                localStorage.setItem('token', res.data.token);
-                stopLoading();
-                props.history.push('/edit-profile');
-            })
-            .catch(err => {
-                toast.error("Please provide valid Email and Password!")
-                stopLoading();
-                resetForm();
-            })
-    };
-    
-    const resetForm = () => setValues({});
-	const stopLoading = () => setLoading(false);
-    
+        if (event) event.preventDefault();
+		const data = JSON.parse(localStorage.getItem('data'));
+        setLoading(true);
 
+        if(data) {
+            setTimeout(() => { 
+                const userData = Object.assign(data.user, values);
+                resetForm();
+                localStorage.setItem('data', JSON.stringify(userData))
+                setLoading(false);
+                props.history.push('/');
+            }, 2000);
+        }
+
+		// axios.post('', values)
+        //     .then(res => {       
+        //         localStorage.setItem('token', res.data.token);
+        //         setLoading(false);
+        //         props.history.push('/');
+        //     })
+        //     .catch(err => {
+        //         toast.error("Please provide valid Email and Password!")
+        //         setLoading(false);
+        //         resetForm();
+        //     })
+    };
+
+    const handleAddContacts = (item) => {
+        if(contacts.length <= 5) {
+            setContacts([...contacts, item])
+        } else {
+            toast.error("You can only add 5 emergency contacts!")
+        }
+    };
+    const handleDeleteContacts = (item) => setContacts(contacts.filter((contact) => contact !== item));
+    const resetForm = () => setValues({});
+    const stopLoading = () => setLoading(false);
+    
+    useEffect(() => {
+        if(contacts.length > 0) {
+            setValues(values => ({ 
+                ...values, 
+                emergency: contacts
+            }));
+        }
+    }, [contacts])
+    
     const { phonenumber, address } = values;
 
     return (
@@ -55,7 +85,16 @@ const Register = (props) => {
                     <input id="address" type="text" value={address || ''} onChange={handleChange} required />
                 </label>
 
-                
+                <MultipleValueTextInput
+                    id="emergency"
+                    onItemAdded={(item, allItems) => handleAddContacts(item)}
+                    onItemDeleted={(item, allItems) => handleDeleteContacts(item)}
+                    charcodes={[13, 44]}
+                    name="emergency"
+                    label="Emergency Contacts"
+                    placeholder="Add up to 5 emergency contacts"
+                    deleteButton={<span>X</span>}
+                />
 
                 <button type="submit" className="submit-btn">
                     {isLoading ? <Roller /> : 'Submit'}
@@ -172,6 +211,39 @@ const StyledContainer = styled.div`
                 -webkit-box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
                 box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
                 color: rgba(255, 255, 255, .8);
+            }
+        }
+
+        .multiple-value-text-input {
+            label {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: ${props => props.theme.black};
+            }
+
+            input {
+                margin-top: .75rem;
+            }
+
+            .multiple-value-text-input-item {
+                display: inline-flex;
+                justify-content: space-between;
+                align-items: center;
+                min-width: 130px;
+                font-size: 1.5rem;
+                padding: .5rem 1.2rem;
+                border-radius: 2px;
+                margin: .5rem .75rem .5rem 0;
+                background: ${props => props.theme.primaryGrey}
+            }
+
+            .multiple-value-text-input-item-delete-button {
+                background: red;
+                color: white;
+                padding: 2px 6px;
+                border-radius: 50%;
+                font-size: .9rem;
+                height: fit-content;
             }
         }
     }

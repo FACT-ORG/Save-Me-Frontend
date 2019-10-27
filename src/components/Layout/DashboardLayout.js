@@ -1,12 +1,13 @@
 import React from "react";
-import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import PrivateRoute from '../Router/PrivateRoute';
 import logo from '../../assets/images/saveme-logo.png';
 
 
 const DashboardLayout = ({component: Component, ...rest}) => {
     return (
-        <Route {...rest} render={props => (
+        <PrivateRoute {...rest} component={matchProps => (
             <StyledContainer>
                 <nav>
                     <div className="site-logo">
@@ -15,7 +16,7 @@ const DashboardLayout = ({component: Component, ...rest}) => {
 
                     <p><Link to="/my-profile">My Profile</Link></p>
                 </nav>
-                <Component {...props} />
+                <Component {...matchProps} />
             </StyledContainer>
         )}/>
     )

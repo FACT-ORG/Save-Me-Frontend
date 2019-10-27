@@ -22,23 +22,46 @@ const Login = (props) => {
 	};
 
 	const handleSubmit = (event) => {
-		if (event) event.preventDefault();
-		setLoading(true);
-		axios.post('', values)
-            .then(res => {       
-                localStorage.setItem('token', res.data.token);
-                stopLoading();
-                props.history.push('/edit-profile');
-            })
-            .catch(err => {
-                toast.error("Please provide valid Email and Password!")
-                stopLoading();
+        if (event) event.preventDefault();
+        const data = JSON.parse(localStorage.getItem('data'));
+        setLoading(true);
+
+        if(data) {
+            if(values.email === data.user.email && values.password === data.user.password) {
                 resetForm();
-            })
+                setTimeout(() => { 
+                    setLoading(false);
+                    props.history.push('/edit-profile');
+                }, 2000);
+            } else {
+                setTimeout(() => { 
+                    resetForm();
+                    setLoading(false);
+                    toast.error("Please provide valid Email and Password!");
+                }, 2000);
+            }
+        } else {
+            setTimeout(() => { 
+                resetForm();
+                setLoading(false);
+                toast.error("User not found, please register!");
+            }, 2000);
+        }
+        
+		// axios.post('', values)
+        //     .then(res => {       
+        //         localStorage.setItem('token', res.data.token);
+        //         stopLoading();
+        //         props.history.push('/edit-profile');
+        //     })
+        //     .catch(err => {
+        //         toast.error("Please provide valid Email and Password!")
+        //         stopLoading();
+        //         resetForm();
+        //     })
     };
     
     const resetForm = () => setValues({});
-	const stopLoading = () => setLoading(false);
 	const toggleVisibility = () => {
 		if(values.password) setVisibility(!visibility)
 	}

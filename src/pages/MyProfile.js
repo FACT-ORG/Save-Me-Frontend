@@ -10,7 +10,7 @@ const MyProfile = () => {
 
     return (
         <StyledContainer>
-            <h2>My Profile Page</h2>
+            <h2>Edit Profile</h2>
         </StyledContainer>
     )
 }
@@ -23,7 +23,7 @@ const StyledContainer = styled.div`
     margin: 0 auto;
     
     h2 {
-        font-size: 6rem;
+        font-size: 3rem;
         margin-top: 8rem;
 
         @media (max-width: 650px) {

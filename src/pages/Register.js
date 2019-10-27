@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { data } from '../utils/data'
 import axios from 'axios';
 import styled from 'styled-components';
 import Roller from '../components/LoadingIndicator/roller';
@@ -23,22 +24,28 @@ const Register = (props) => {
 
 	const handleSubmit = (event) => {
 		if (event) event.preventDefault();
-		setLoading(true);
-		axios.post('', values)
-            .then(res => {       
-                localStorage.setItem('token', res.data.token);
-                stopLoading();
-                props.history.push('/edit-profile');
-            })
-            .catch(err => {
-                toast.error("Please provide valid Email and Password!")
-                stopLoading();
-                resetForm();
-            })
+        setLoading(true);
+        setTimeout(() => { 
+            const userData = Object.assign(data.user, values);
+            resetForm();
+            localStorage.setItem('data', JSON.stringify(data))
+            setLoading(false);
+            props.history.push('/login');
+        }, 2000);
+
+		// axios.post('https://save-me-api.herokuapp.com/api/v1/auth/signup', values)
+        //     .then(res => {       
+        //         stopLoading();
+        //         props.history.push('/login');
+        //     })
+        //     .catch(err => {
+        //         toast.error("Oops, please try again!")
+        //         stopLoading();
+        //         resetForm();
+        //     })
     };
     
     const resetForm = () => setValues({});
-	const stopLoading = () => setLoading(false);
 	const toggleVisibility = () => {
 		if(values.password) setVisibility(!visibility)
 	}

@@ -1,22 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import RapeIcon from '../assets/icons/rape.svg';
+import PBIcon from '../assets/icons/police-brutality.svg';
+import HRIcon from '../assets/icons/highway-robbery.svg';
+import KidnappingIcon from '../assets/icons/kidnapping.svg';
+import TerrorismIcon from '../assets/icons/terrorism.svg';
 
 
 const Home = () => {
 
-    const saveMe = () => {
+    const data = localStorage.getItem('data');
+    const [ values, setValues ] = useState({
+        name: data.fullname,
+        location: '',
+        type: ''
+    });
 
+    useEffect(() => {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyBp-FFQqXxiynQl_jy097m0lgMXFpKXYlY`)
+                    .then ((res) => {
+                        setValues({
+                            ...values,
+                            location: res.data.results[0],
+                        })
+                    })
+            });
+        } else {
+            alert("Sorry, browser does not support geolocation!");
+        }      
+    }, [])
+
+    const saveMe = (type) => {
+        setValues({
+            ...values,
+            type: type
+        })
+        toast.success("We've sent the alert out to your family and friends!");
     }
 
     return (
         <StyledContainer>
             <h2>Hello, what is your emergency?</h2>
             <ul>
-                <li><button onClick={() => saveMe('')}>Rape</button></li>
-                <li><button onClick={() => saveMe('')}>Police Brutality</button></li>
-                <li><button onClick={() => saveMe('')}>Kidnapping</button></li>
-                <li><button onClick={() => saveMe('')}>Highway Robbery</button></li>
-                <li><button onClick={() => saveMe('')}>Terrorism Attack</button></li>
+                <li>
+                    <button onClick={() => saveMe('Rape')}>
+                        <img className="rape" src={RapeIcon} alt="Rape Icon" />
+                        <span>Rape</span>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => saveMe('Police Brutality')}>
+                        <img src={PBIcon} alt="Police Brutality Icon" />
+                        <span>Police Brutality</span>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => saveMe('Kidnapping')}>
+                        <img className="smaller" src={KidnappingIcon} alt="Kidnapping Icon" />
+                        <span>Kidnapping</span>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => saveMe('Gunmen')}>
+                        <img src={HRIcon} alt="Gunmen Icon" />
+                        <span>Gunmen</span>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => saveMe('Terrorism Attack')}>
+                        <img src={TerrorismIcon} alt="Terrorism Attack Icon" />
+                        <span>Terrorism Attack</span>
+                    </button>
+                </li>
             </ul>
         </StyledContainer>
     )
@@ -60,8 +120,10 @@ const StyledContainer = styled.div`
             min-height: 100px;
             font-size: 2rem;
             text-align: left;
-            padding: 3rem;
+            padding: 2rem;
             position: relative;
+            display: flex;
+            align-items: center;
 
             &:before {
                 background:#f0f0f0;
@@ -94,6 +156,20 @@ const StyledContainer = styled.div`
 
             &:hover {
                 background: #000000b0;
+            }
+
+            img {
+                max-width: 40px;
+                margin-right: 15px;
+
+                &.smaller {
+                    max-width: 30px;
+                }
+
+                &.rape {
+                    max-width: 50px;
+                    margin-right: 5px;
+                }
             }
         }
     }
