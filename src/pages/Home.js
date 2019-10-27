@@ -18,7 +18,8 @@ const authToken = 'e24a8819bb23940293347674e50b8ac5';
 
 const Home = () => {
 
-    const data = localStorage.getItem('data');
+    const data = JSON.parse(localStorage.getItem('data'));
+    const template = `Hello, your emergency contact ${data.fullname} is in danger at ${data.location}. Please contact 767 for emegency response`;
     const [ values, setValues ] = useState({
         name: data.fullname,
         location: '',
@@ -42,51 +43,39 @@ const Home = () => {
         }      
     }, [])
 
-    const saveMe = (type) => {
-        const data = JSON.parse(localStorage.getItem('data'));
-        console.log(data.phonenumber);
-        console.log(parseInt(data.phonenumber));
-        const template = `Hello, your emergency contact ${data.fullname} is in danger at ${data.location}. It seems it's a case of ${type}. Please contact 767 for emegency response`
-        toast.success("We've sent the alert out to your family and friends!");
-        axios.get(`https://api.whatsapp.com/send?phone=${Number(data.phonenumber)}&?text=${template}`)
-            .then((res) => {
-                console.log(res)
-            })
-    }
-
     return (
         <StyledContainer>
             <h2>Hello, what is your emergency?</h2>
             <ul>
                 <li>
-                    <button onClick={() => saveMe('Rape')}>
+                    <a href={`https://api.whatsapp.com/send?phone=${data.phonenumber}&?text=${template}`} target="_blank">
                         <img className="rape" src={RapeIcon} alt="Rape Icon" />
                         <span>Rape</span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button onClick={() => saveMe('Police Brutality')}>
+                    <a href={`https://api.whatsapp.com/send?phone=${data.phonenumber}&?text=${template}`} target="_blank">
                         <img src={PBIcon} alt="Police Brutality Icon" />
                         <span>Police Brutality</span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button onClick={() => saveMe('Kidnapping')}>
+                    <a href={`https://api.whatsapp.com/send?phone=${data.phonenumber}&?text=${template}`} target="_blank">
                         <img className="smaller" src={KidnappingIcon} alt="Kidnapping Icon" />
                         <span>Kidnapping</span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button onClick={() => saveMe('Gunmen')}>
+                    <a href={`https://api.whatsapp.com/send?phone=${data.phonenumber}&?text=${template}`} target="_blank">
                         <img src={HRIcon} alt="Gunmen Icon" />
                         <span>Gunmen</span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button onClick={() => saveMe('Terrorism Attack')}>
+                    <a href={`https://api.whatsapp.com/send?phone=${data.phonenumber}&?text=${template}`} target="_blank">
                         <img src={TerrorismIcon} alt="Terrorism Attack Icon" />
                         <span>Terrorism Attack</span>
-                    </button>
+                    </a>
                 </li>
             </ul>
         </StyledContainer>
@@ -122,7 +111,7 @@ const StyledContainer = styled.div`
     }
 
     li {
-        button {
+        a, button {
             border: none;
             outline: none;
             background: black;
