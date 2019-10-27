@@ -10,6 +10,12 @@ import KidnappingIcon from '../assets/icons/kidnapping.svg';
 import TerrorismIcon from '../assets/icons/terrorism.svg';
 
 
+let Twilio = window.Twilio;
+console.log(Twilio)
+const accountSid = 'AC4ceb09a64408ac5ef3f855089a1cb350';
+const authToken = 'e24a8819bb23940293347674e50b8ac5';
+// const client = Twilio(accountSid, authToken);
+
 const Home = () => {
 
     const data = localStorage.getItem('data');
@@ -20,9 +26,10 @@ const Home = () => {
     });
 
     useEffect(() => {
+        console.log(process.env.API_KEY);
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyBp-FFQqXxiynQl_jy097m0lgMXFpKXYlY`)
+                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${process.env.API_KEY}`)
                     .then ((res) => {
                         setValues({
                             ...values,
@@ -41,6 +48,11 @@ const Home = () => {
             type: type
         })
         toast.success("We've sent the alert out to your family and friends!");
+        // client.messages.create({
+        //     body: 'Hello! Your emergency contact Femi at Andela Epic Tower is at a danger of getting beaten, Please get help by contacting 767',
+        //     from: '+14152374350',
+        //     to: '+2348060472707'
+        // }).then(message => console.log(message.sid));
     }
 
     return (
