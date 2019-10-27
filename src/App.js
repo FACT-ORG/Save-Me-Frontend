@@ -23,7 +23,7 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <GlobalStyles />
-          <Route path="/emergency" component={EmergencyProfile} />
+          {/* <Route path="/emergency" component={EmergencyProfile} /> */}
           <DashboardLayout exact path="/" component={Home} />
           <DashboardLayout path="/my-profile" component={MyProfile} />
 
