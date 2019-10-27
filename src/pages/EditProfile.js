@@ -119,7 +119,7 @@ const StyledContainer = styled.div`
                     -webkit-box-shadow:200px 200px 100px white inset; 
                     box-shadow:200px 200px 100px white inset; 
                 }
-                &:valid { border-color: #419BA0; }
+                &:valid { border-color: ${props => props.theme.primaryColor}; }
                 & + .input-requirements {
                     overflow: hidden;
                     max-height: 0;

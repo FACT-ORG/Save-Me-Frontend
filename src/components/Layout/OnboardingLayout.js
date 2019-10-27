@@ -30,12 +30,25 @@ const StyledContainer = styled.div`
     overflow-y: hidden;
     display: flex;
 
+    @media (max-width: 650px) {
+        overflow-y: auto;
+        display: block;
+    }
+
     & > * {
         width: 50%;
+
+        @media (max-width: 650px) {
+            width: 100%;
+        }
     }
 
     .hero-background {
         position: relative;
+        
+        @media (max-width: 650px) {
+            display: none;
+        }
 
         &:before {
             content: '';
@@ -53,16 +66,16 @@ const StyledContainer = styled.div`
 
     .main-content {
         height: 100%;
+        padding: 2rem;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         position: relative;
 
         .site-logo {
             max-width: 60px;
-            position: absolute;
-            top: 4rem;
-            left: calc((100% - 470px) / 2);
+            margin-bottom: 15rem;
         }
     }
 `
