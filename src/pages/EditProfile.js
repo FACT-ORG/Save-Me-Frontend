@@ -111,7 +111,7 @@ const StyledContainer = styled.div`
     max-width: 450px;
     width: 100%;
     margin: 0 auto;
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     h2 {
         font-size: 2.4rem;

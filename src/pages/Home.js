@@ -43,16 +43,15 @@ const Home = () => {
     }, [])
 
     const saveMe = (type) => {
-        setValues({
-            ...values,
-            type: type
-        })
+        const data = JSON.parse(localStorage.getItem('data'));
+        console.log(data.phonenumber);
+        console.log(parseInt(data.phonenumber));
+        const template = `Hello, your emergency contact ${data.fullname} is in danger at ${data.location}. It seems it's a case of ${type}. Please contact 767 for emegency response`
         toast.success("We've sent the alert out to your family and friends!");
-        // client.messages.create({
-        //     body: 'Hello! Your emergency contact Femi at Andela Epic Tower is at a danger of getting beaten, Please get help by contacting 767',
-        //     from: '+14152374350',
-        //     to: '+2348060472707'
-        // }).then(message => console.log(message.sid));
+        axios.get(`https://api.whatsapp.com/send?phone=${Number(data.phonenumber)}&?text=${template}`)
+            .then((res) => {
+                console.log(res)
+            })
     }
 
     return (
